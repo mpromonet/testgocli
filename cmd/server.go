@@ -1,5 +1,7 @@
 package cmd
 
+//go:generate swag init -g server.go
+
 import (
     "fmt"
     "log"
@@ -7,13 +9,11 @@ import (
     "github.com/spf13/cobra"
     "github.com/swaggo/gin-swagger"
     "github.com/swaggo/files"
-    _ "main/docs" // Import the generated docs    
+    "main/cmd/docs"
 )
 
 // @title MyCLI API
-// @version 1.0
 // @description This is a sample server for MyCLI.
-// @BasePath /
 
 
 // @Summary Root endpoint
@@ -33,6 +33,11 @@ var serverCmd = &cobra.Command{
     Long:  `This command starts an HTTP server on a specified port.`,
     Run: func(cmd *cobra.Command, args []string) {
         port, _ := cmd.Flags().GetString("port")
+
+        // Set Swagger info dynamically
+        docs.SwaggerInfo.Host = ":" + port
+        docs.SwaggerInfo.Version = version
+                
 
         r := gin.Default()
 		r.SetTrustedProxies(nil)
