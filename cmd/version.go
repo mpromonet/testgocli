@@ -1,9 +1,10 @@
 package cmd
 
 import (
-    _ "embed"
-    "fmt"
-    "github.com/spf13/cobra"
+	_ "embed"
+	"fmt"
+
+	"github.com/spf13/cobra"
 )
 
 //go:generate sh -c "printf '%s' $(git describe --tags --always --dirty) > version.txt"
@@ -11,14 +12,13 @@ import (
 var version string
 
 var versionCmd = &cobra.Command{
-    Use:   "version",
-    Short: "Print the version number of MyCLI",
-    Long:  `All software has versions. This is MyCLI's`,
-    Run: func(cmd *cobra.Command, args []string) {
-        fmt.Printf("MyCLI version: %v\n", version)
-    },
+	Use:   "version",
+	Short: "Print the version",
+	Run: func(cmd *cobra.Command, args []string) {
+		fmt.Printf("MyCLI version: %v\n", version)
+	},
 }
 
 func init() {
-    rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(versionCmd)
 }
